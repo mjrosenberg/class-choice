@@ -21,31 +21,17 @@ var classSchema = mongoose.Schema({
 
 var Class = mongoose.model('Class', classSchema);
 
-var selectAll = function(callback) {
-  Class.find({}, function(err, classes) {
-    if(err) {
-      callback(err, null);
-    } else {
-      callback(null, classes);
-    }
-  });
-};
-// Class.insertMany([
-//   {title: 'Javascript Fundamentals',
-//   subject: 'Computer Science',
-//   description: 'Let\'s learn the basics of javascript'},
-//   {title: 'React and Express',
-//   subject: 'Computer Science',
-//   description: 'Learn basics of full stack development'},
-//   {title: 'Java Fundamentals',
-//   subject: 'Computer Science',
-//   description: 'Let\'s learn the basics of java'},
-//   {title: 'Design and Analysis oof Algorithms',
-//   subject: 'Computer Science',
-//   description: 'Design and analyze coomplex algorithms through proof-based learning'},
-// ],
-// (err)=> {
-//   console.log(err);
-// });
+var studentSchema = mongoose.Schema({
+  firstName: {type: String, required: true},
+  lastName: {type: String, required: true},
+  email: {type: String, index: true, required: true},
+  password: {type: String, required: true},
+  classes: { type: Array, default: [] }
+});
 
-module.exports.Class = Class;
+var Student = mongoose.model('Student', studentSchema);
+
+module.exports = {
+  Class: Class,
+  Student: Student,
+};
