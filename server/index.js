@@ -85,12 +85,14 @@ app.post('/addAccount', (req, res) => {
     })
 });
 
-app.post('/addClass/:studentId', (req, res) => {
-  classes.Student.findOneAndUpdate({_id: req.params.studentId}, {$push:{classes: req.body}}, {
+//this doesn't work
+app.post('/addClass/:email', (req, res) => {
+  console.log('req.body is', req.body);
+  classes.Student.findOneAndUpdate({_id: req.params.email}, {$push:{classes: req.body.id}}, {
     new: true
     })
     .then((data) => {
-      res.send(data)
+      res.send({success: true});
     })
     .catch((err) => {
       res.error(err);
