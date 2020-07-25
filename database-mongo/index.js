@@ -48,4 +48,4 @@ var selectAll = function(callback) {
 //   console.log(err);
 // });
 
-module.exports.selectAll = selectAll;
+module.exports.Class = Class;
