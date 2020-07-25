@@ -50,7 +50,7 @@ app.post('/addStudent/:classId', (req, res) => {
 app.get('/login/:email/:hashedPassword', (req, res) => {
   classes.Student.find({email: req.params.email})
     .then((data) => {
-      console.log('data is', data[0]._doc);
+      // console.log('data is', data[0]._doc);
       if (req.params.hashedPassword === data[0]._doc.password){
         res.send({
           firstName: data[0]._doc.firstName,
@@ -76,12 +76,25 @@ app.post('/addAccount', (req, res) => {
     password: hashPassword(req.body.password),
   }])
     .then((data) => {
-      res.send('added account');
+      res.status(200).send({success: true});
     })
     .catch((err) => {
-      res.send('failed to add account');
+      // res.send({success: false});
+      // res.error(err);
       console.log(err);
     })
+});
+
+app.post('/addClass/:studentId', (req, res) => {
+  classes.Student.findOneAndUpdate({_id: req.params.studentId}, {$push:{classes: req.body}}, {
+    new: true
+    })
+    .then((data) => {
+      res.send(data)
+    })
+    .catch((err) => {
+      res.error(err);
+    });
 });
 
 app.listen(3000, function() {

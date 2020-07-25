@@ -86,6 +86,7 @@ class App extends React.Component {
   hasAccountChange(){
     this.setState({
       hasAccount: !this.state.hasAccount,
+      logInErr: '',
     });
   }
 
@@ -98,8 +99,38 @@ class App extends React.Component {
       firstName: fname,
       lastName: lname,
       email: email,
-      password: password,
+      password: password
     }
+    const url = 'http://localhost:3000/addAccount'
+    fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+        // 'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: JSON.stringify(data),
+    })
+      .then((data)=>{
+        console.log('in the then');
+        this.setState({
+          student: {
+            firstName: fname,
+            lastName: lname,
+            email: email,
+            classes: [],
+          },
+          loggedIn: true,
+          hasAccount: true,
+
+        })
+      })
+      .catch((err)=>{
+        console.log('in the catch');
+
+        this.setState({
+          logInErr: 'Could Not Create Account',
+        })
+      })
   }
 
   render () {
@@ -133,13 +164,14 @@ class App extends React.Component {
             </form>
             <button value="Submit" onClick={this.addAccount}>Sign Up</button>
             <button id='alreadyAccount' onClick={this.hasAccountChange}>Already Have An Account?</button>
+            <div id='logInErr'>{this.state.logInErr}</div>
           </div>);
       }
     } else {
       return (
       <div id='mainWrapper'>
         <h1>{this.state.subject} Classes</h1>
-        <div id='currStudent'>Signed in as: {this.state.student.email}</div>
+        <div id='currStudent'>Signed in as: {this.state.student.email} </div>
         <select name="subjects" id="subjectChoice" onChange={this.changeSubject}>
           <option value="All">All Subjects</option>
           <option value="Math">Math</option>

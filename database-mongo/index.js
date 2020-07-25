@@ -24,7 +24,7 @@ var Class = mongoose.model('Class', classSchema);
 var studentSchema = mongoose.Schema({
   firstName: {type: String, required: true},
   lastName: {type: String, required: true},
-  email: {type: String, index: true, required: true},
+  email: {type: String, index: true, required: true, unique: true},
   password: {type: String, required: true},
   classes: { type: Array, default: [] }
 });

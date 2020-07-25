@@ -8,7 +8,7 @@ const ClassList = (props) => (
     {props.classes.map((item) => {
       console.log('item is', item);
         if (item.subject === props.subject || props.subject === 'All') {
-          console.log(item.subject, 'matches subject', props.subject)
+          // console.log(item.subject, 'matches subject', props.subject)
           return(<Class class={item} student = {props.student} key={item._id} />);
         }
         // return (<div></div>)
