@@ -44,7 +44,7 @@ class App extends React.Component {
   render () {
     return (
     <div id='mainWrapper'>
-      <h1>Classes</h1>
+      <h1>{this.state.subject} Classes</h1>
       <select name="subjects" id="subjectChoice" onChange={this.changeSubject}>
         <option value="All">All Subjects</option>
         <option value="Math">Math</option>
