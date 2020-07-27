@@ -47,7 +47,7 @@ app.post('/addStudent/:classId', (req, res) => {
 });
 
 app.delete('/removeStudent/:classId', (req,res) => {
-  classes.Class.findOneAndUpdate({_id: req.params.classId}, {$pull:{students: req.body}}, {
+  classes.Class.findOneAndUpdate({_id: req.params.classId}, {$pull:{students: {email: req.body.email}}}, {
     new: true
     })
     .then((data) => {

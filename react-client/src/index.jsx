@@ -30,15 +30,10 @@ class App extends React.Component {
     this.getCourses = this.getCourses.bind(this);
   }
 
-  componentDidMount() {
-    this.getCourses();
-  }
-  // if I press log out and log back in right now it rerenders the classes (and thus resets the num students count bc it hasn't been pulled from the database again)
-  // componentDidUpdate(){
-  //   if (loggedIn === false){
-  //     this.getCourses();
-  //   }
+  // componentDidMount() {
+  //   this.getCourses();
   // }
+
   getCourses(){
     let url = 'http://localhost:3000/';
     if (this.state.subject === 'All'){
