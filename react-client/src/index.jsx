@@ -33,9 +33,9 @@ class App extends React.Component {
     this.myCourses = this.myCourses.bind(this);
   }
 
-  componentDidMount() {
-    this.getCourses();
-  }
+  // componentDidMount() {
+  //   this.getCourses();
+  // }
 
   getCourses(){
     let url = 'http://localhost:3000/';
@@ -67,6 +67,7 @@ class App extends React.Component {
   signIn(e) {
     //hash inputted password and then fetch the account using the route defined on the server
     e.preventDefault();
+    this.getCourses();
     const password = document.getElementById("password").value;
     const email = document.getElementById("email").value;
     // console.log('email is', email, 'password typed is', password);
@@ -143,6 +144,7 @@ class App extends React.Component {
   }
 
   signOut(){
+
     this.setState({
       loggedIn: false,
       student: {
@@ -157,11 +159,14 @@ class App extends React.Component {
   }
 
   myCourses(){
+    // this.getCourses();
+    // resetMenu();
+    document.getElementById("subjectChoice").value = 'All';
     if (this.state.myCourseSelected === false){
       let courses = [];
       for (let i = 0; i < this.state.student.classes.length; i++){
         let course = this.state.student.classes[i];
-        console.log('course is', course);
+        // console.log('course is', course);
         let url = `http://localhost:3000/classes/${course}`
         fetch(url)
           .then(response => response.json())
@@ -172,6 +177,7 @@ class App extends React.Component {
               classes: courses,
               myCourseSelected: true,
               myCourseText: 'View All Courses',
+              subject: 'All',
             })
           })
           .catch((err)=>{
@@ -189,12 +195,17 @@ class App extends React.Component {
         this.setState({
           classes: data,
           myCourseSelected: false,
-        myCourseText: 'View My Courses',
+          myCourseText: 'View My Courses',
+          subject: 'All',
         });
       })
       .catch((err)=>{
         console.log(err);
       });
+      // this.setState({
+      //   myCourseSelected: false,
+      //   myCourseText: 'View My Courses',
+      // });
     }
   }
 
