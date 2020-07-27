@@ -195,6 +195,7 @@ class App extends React.Component {
           </div>);
       }
     } else {
+      this.getCourses();
       return (
       <div id='mainWrapper'>
         <h1 id='mainTitle'>{this.state.subject} Classes</h1>

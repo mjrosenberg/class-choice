@@ -46,6 +46,18 @@ app.post('/addStudent/:classId', (req, res) => {
     });
 });
 
+app.delete('/removeStudent/:classId', (req,res) => {
+  classes.Class.findOneAndUpdate({_id: req.params.classId}, {$pull:{students: req.body}}, {
+    new: true
+    })
+    .then((data) => {
+      res.send(data)
+    })
+    .catch((err) => {
+      res.error(err);
+    });
+});
+
 //student routes
 app.get('/login/:email/:hashedPassword', (req, res) => {
   classes.Student.find({email: req.params.email})
@@ -85,7 +97,6 @@ app.post('/addAccount', (req, res) => {
     })
 });
 
-//this doesn't work
 app.post('/addClass/:email', (req, res) => {
   console.log('req.body is', req.body);
   classes.Student.findOneAndUpdate({email: req.params.email}, {$push:{classes: req.body.id}}, {
@@ -94,6 +105,20 @@ app.post('/addClass/:email', (req, res) => {
     .then((data) => {
       console.log('data is', data);
       res.send({success: true});
+    })
+    .catch((err) => {
+      res.error(err);
+    });
+});
+
+app.delete('/removeClass/:email', (req, res) => {
+  console.log('req.body is', req.body);
+  classes.Student.findOneAndUpdate({email: req.params.email}, {$pull:{classes: req.body.id}}, {
+    new: true
+    })
+    .then((data) => {
+      // console.log('data is', data);
+      res.send(data);
     })
     .catch((err) => {
       res.error(err);
