@@ -31,6 +31,7 @@ class App extends React.Component {
     this.signOut = this.signOut.bind(this);
     this.getCourses = this.getCourses.bind(this);
     this.myCourses = this.myCourses.bind(this);
+    this.appendClassToStudent = this.appendClassToStudent.bind(this);
   }
 
   // componentDidMount() {
@@ -160,7 +161,6 @@ class App extends React.Component {
 
   myCourses(){
     // this.getCourses();
-    // resetMenu();
     document.getElementById("subjectChoice").value = 'All';
     if (this.state.myCourseSelected === false){
       let courses = [];
@@ -209,8 +209,38 @@ class App extends React.Component {
     }
   }
 
+  appendClassToStudent(classId) {
+    // this.setState(prevState => ({
+    //   student: {                   // object that we want to update
+    //       ...prevState.student,    // keep all other key-value pairs
+    //       classes: [...prevState.student.classes, course],       // update the value of specific key
+    //   }
+    // });
+    //if student has class, delete it, else add it to the list;
+    let courses = this.state.student.classes;
+    let includes = false;
+    for (let i=0; i< courses.length; i++){
+      let course = courses[i]
+      if (course === classId){
+        includes = true;
+        courses.splice(i,1);
+      }
+    }
+    if (includes === false){
+      courses.push(classId);
+    }
+    this.setState({
+      student: {
+        firstName: this.state.student.firstName,
+        lastName: this.state.student.lastName,
+        email: this.state.student.email,
+        classes: courses,
+      }
+    });
+  }
+
   render () {
-    if (this.state.loggedIn === false){
+    if (this.state.loggedIn === false) {
       if (this.state.hasAccount){
         return (
           <div id='signIn'>
@@ -262,7 +292,7 @@ class App extends React.Component {
           <option value="History">History</option>
           <option value="English">English</option>
         </select>
-        <ClassList subject={this.state.subject} classes={this.state.classes} student={this.state.student} />
+        <ClassList subject={this.state.subject} classes={this.state.classes} student={this.state.student} append={this.appendClassToStudent} />
       </div>
       );
     }

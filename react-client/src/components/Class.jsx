@@ -18,6 +18,7 @@ const Class = (props) => {
     //   return;
     //   // maybe display a message like already enrolled in this course and make thhe buttoon unclickable
     // }
+    props.append(props.class._id);
     if (enrolled === true){
       //add in the ability to unenroll on a click if already enrolled
       //delete the student from the class's students array
