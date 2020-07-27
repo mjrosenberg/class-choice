@@ -14,13 +14,14 @@ app.use(express.static(__dirname + '/../react-client/dist'));
 
 Promise.promisifyAll(require('mongoose'));
 
-app.get('/classes/:subjectName', (req, res) => {
-  classes.Class.find({'subject': req.params.subjectName})
+app.get('/classes/:classId', (req, res) => {
+  classes.Class.find({_id: req.params.classId})
     .then((data) => {
-      res.send(data)
+      // console.log('data being sent back is', data[0]);
+      res.send(data[0])
     })
     .catch((err) => {
-      res.error(err);
+      res.send(err);
     });
 });
 

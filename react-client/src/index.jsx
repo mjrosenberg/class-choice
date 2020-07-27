@@ -21,6 +21,8 @@ class App extends React.Component {
       },
       hasAccount: true,
       logInErr: '',
+      myCourseText: 'View My Courses',
+      myCourseSelected: false,
     }
     this.changeSubject = this.changeSubject.bind(this);
     this.signIn = this.signIn.bind(this);
@@ -28,11 +30,12 @@ class App extends React.Component {
     this.addAccount = this.addAccount.bind(this);
     this.signOut = this.signOut.bind(this);
     this.getCourses = this.getCourses.bind(this);
+    this.myCourses = this.myCourses.bind(this);
   }
 
-  // componentDidMount() {
-  //   this.getCourses();
-  // }
+  componentDidMount() {
+    this.getCourses();
+  }
 
   getCourses(){
     let url = 'http://localhost:3000/';
@@ -153,6 +156,48 @@ class App extends React.Component {
     })
   }
 
+  myCourses(){
+    if (this.state.myCourseSelected === false){
+      let courses = [];
+      for (let i = 0; i < this.state.student.classes.length; i++){
+        let course = this.state.student.classes[i];
+        console.log('course is', course);
+        let url = `http://localhost:3000/classes/${course}`
+        fetch(url)
+          .then(response => response.json())
+          .then((data)=>{
+            courses.push(data);
+            console.log('courses array is', courses);
+            this.setState({
+              classes: courses,
+              myCourseSelected: true,
+              myCourseText: 'View All Courses',
+            })
+          })
+          .catch((err)=>{
+            console.log(err);
+          });
+        //get the course by id and add it to the courses array
+      }
+      console.log('courses to show are', courses);
+
+    } else {
+      let url = 'http://localhost:3000/allClasses';
+      fetch(url)
+      .then(response => response.json())
+      .then((data) => {
+        this.setState({
+          classes: data,
+          myCourseSelected: false,
+        myCourseText: 'View My Courses',
+        });
+      })
+      .catch((err)=>{
+        console.log(err);
+      });
+    }
+  }
+
   render () {
     if (this.state.loggedIn === false){
       if (this.state.hasAccount){
@@ -190,11 +235,12 @@ class App extends React.Component {
           </div>);
       }
     } else {
-      this.getCourses();
+      // this.getCourses();
       return (
       <div id='mainWrapper'>
-        <h1 id='mainTitle'>{this.state.subject} Classes</h1>
         <div id='currStudent'>Signed in as: {this.state.student.email} </div>
+        <button id='myCourses' onClick={this.myCourses}>{this.state.myCourseText}</button><br></br>
+        <h1 id='mainTitle'>{this.state.subject} Classes</h1>
         <div id='signoutWrapper'>
           <button id='signout' onClick={this.signOut}>Sign Out</button>
         </div>
