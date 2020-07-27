@@ -25,7 +25,7 @@ app.get('/classes/:subjectName', (req, res) => {
 });
 
 app.get('/allClasses', (req, res) => {
-  classes.Class.find()
+  classes.Class.find().sort('title')
     .then((data) => {
       res.send(data)
     })
@@ -88,10 +88,11 @@ app.post('/addAccount', (req, res) => {
 //this doesn't work
 app.post('/addClass/:email', (req, res) => {
   console.log('req.body is', req.body);
-  classes.Student.findOneAndUpdate({_id: req.params.email}, {$push:{classes: req.body.id}}, {
+  classes.Student.findOneAndUpdate({email: req.params.email}, {$push:{classes: req.body.id}}, {
     new: true
     })
     .then((data) => {
+      console.log('data is', data);
       res.send({success: true});
     })
     .catch((err) => {

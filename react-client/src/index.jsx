@@ -26,9 +26,20 @@ class App extends React.Component {
     this.signIn = this.signIn.bind(this);
     this.hasAccountChange = this.hasAccountChange.bind(this);
     this.addAccount = this.addAccount.bind(this);
+    this.signOut = this.signOut.bind(this);
+    this.getCourses = this.getCourses.bind(this);
   }
 
   componentDidMount() {
+    this.getCourses();
+  }
+  // if I press log out and log back in right now it rerenders the classes (and thus resets the num students count bc it hasn't been pulled from the database again)
+  // componentDidUpdate(){
+  //   if (loggedIn === false){
+  //     this.getCourses();
+  //   }
+  // }
+  getCourses(){
     let url = 'http://localhost:3000/';
     if (this.state.subject === 'All'){
       url += 'allClasses'
@@ -121,7 +132,7 @@ class App extends React.Component {
           },
           loggedIn: true,
           hasAccount: true,
-
+          logInErr: '',
         })
       })
       .catch((err)=>{
@@ -133,6 +144,20 @@ class App extends React.Component {
       })
   }
 
+  signOut(){
+    this.setState({
+      loggedIn: false,
+      student: {
+        _id: '',
+        firstName: '',
+        lastName: '',
+        email: '',
+        classes: [],
+      },
+      subject: 'All',
+    })
+  }
+
   render () {
     if (this.state.loggedIn === false){
       if (this.state.hasAccount){
@@ -141,28 +166,30 @@ class App extends React.Component {
             Sign into Account
             <form id='logInForm'>
               <label for="email">Email:</label>
-              <input type="email" id="email" name="email"/>
+              <input type="email" id="email" name="email"/><br></br>
               <label for="password">Password:</label>
-              <input type="password" id="password" name="password"/>
+              <input type="password" id="password" name="password"/><br></br>
             </form>
-            <button value="Submit" onClick={this.signIn}>Sign In</button>
+            <button value="Submit" onClick={this.signIn}>Sign In</button><br></br>
             <button id='noAccount' onClick={this.hasAccountChange}>Don't Have An Account?</button>
             <div id='logInErr'>{this.state.logInErr}</div>
           </div>
           );
       } else {
-          return (<div id='createAccount'>
+          return (
+          <div id='createAccount'>
+            Create Account
             <form id='logInForm'>
             <label for="fname">First Name:</label>
-              <input type="text" id="fname" name="fname"/>
+              <input type="text" id="fname" name="fname"/><br></br>
               <label for="lname">Last Name:</label>
-              <input type="text" id="lname" name="lname"/>
+              <input type="text" id="lname" name="lname"/><br></br>
               <label for="email">Email:</label>
-              <input type="email" id="email" name="email"/>
+              <input type="email" id="email" name="email"/><br></br>
               <label for="password">Password:</label>
-              <input type="password" id="password" name="password"/>
+              <input type="password" id="password" name="password"/><br></br>
             </form>
-            <button value="Submit" onClick={this.addAccount}>Sign Up</button>
+            <button value="Submit" onClick={this.addAccount}>Sign Up</button><br></br>
             <button id='alreadyAccount' onClick={this.hasAccountChange}>Already Have An Account?</button>
             <div id='logInErr'>{this.state.logInErr}</div>
           </div>);
@@ -170,8 +197,11 @@ class App extends React.Component {
     } else {
       return (
       <div id='mainWrapper'>
-        <h1>{this.state.subject} Classes</h1>
+        <h1 id='mainTitle'>{this.state.subject} Classes</h1>
         <div id='currStudent'>Signed in as: {this.state.student.email} </div>
+        <div id='signoutWrapper'>
+          <button id='signout' onClick={this.signOut}>Sign Out</button>
+        </div>
         <select name="subjects" id="subjectChoice" onChange={this.changeSubject}>
           <option value="All">All Subjects</option>
           <option value="Math">Math</option>

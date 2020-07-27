@@ -31,6 +31,22 @@ var studentSchema = mongoose.Schema({
 
 var Student = mongoose.model('Student', studentSchema);
 
+
+// Class.insertMany([
+//   {
+//     title: 'American History',
+//     subject: 'History',
+//     description: 'Learn about the history of America, from 1776 to now',
+//   }, {
+//     title: 'The Cold War',
+//     subject: 'History',
+//     description: 'Learn about the cold war and America\'s fight against communism',
+//   }, {
+//     title: 'English History',
+//     subject: 'History',
+//     description: 'Learn about the history of the UK and the English monarchs',
+//   },
+// ])
 module.exports = {
   Class: Class,
   Student: Student,
