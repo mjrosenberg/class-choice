@@ -121,7 +121,7 @@ class App extends React.Component {
     var newUrl = window.location.href.split('');
     newUrl.pop();
     let url= newUrl.join('');
-    url = url + '/addAccount'
+    url = url + '/addAccount';
     fetch(url, {
       method: 'POST',
       headers: {
