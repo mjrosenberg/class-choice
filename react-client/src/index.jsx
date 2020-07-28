@@ -39,11 +39,14 @@ class App extends React.Component {
   // }
 
   getCourses(){
-    let url = 'http://localhost:3000/';
+    // let url = 'http://localhost:3000/';
+    var newUrl = window.location.href.split('');
+    newUrl.pop();
+    var url= newUrl.join('');
     if (this.state.subject === 'All'){
-      url += 'allClasses'
+      url += '/allClasses'
     } else {
-      url += `${this.state.subject}`;
+      url += `/${this.state.subject}`;
     }
     fetch(url)
       .then(response => response.json())
@@ -73,7 +76,10 @@ class App extends React.Component {
     const email = document.getElementById("email").value;
     // console.log('email is', email, 'password typed is', password);
     const hashedPassword = hashPassword(password);
-    const url = `http://localhost:3000/login/${email}/${hashedPassword}`;
+    var newUrl = window.location.href.split('');
+    newUrl.pop();
+    var url= newUrl.join('');
+    url = `${url}/login/${email}/${hashedPassword}`;
     fetch(url)
       .then(response => response.json())
       .then((data) => {
@@ -112,7 +118,10 @@ class App extends React.Component {
       email: email,
       password: password
     }
-    const url = 'http://localhost:3000/addAccount'
+    var newUrl = window.location.href.split('');
+    newUrl.pop();
+    let url= newUrl.join('');
+    url = url + '/addAccount'
     fetch(url, {
       method: 'POST',
       headers: {
@@ -167,7 +176,10 @@ class App extends React.Component {
       for (let i = 0; i < this.state.student.classes.length; i++){
         let course = this.state.student.classes[i];
         // console.log('course is', course);
-        let url = `http://localhost:3000/classes/${course}`
+        var newUrl = window.location.href.split('');
+        newUrl.pop();
+        var url= newUrl.join('');
+        let url = url + `/classes/${course}`;
         fetch(url)
           .then(response => response.json())
           .then((data)=>{
@@ -188,7 +200,10 @@ class App extends React.Component {
       console.log('courses to show are', courses);
 
     } else {
-      let url = 'http://localhost:3000/allClasses';
+      var newUrl = window.location.href.split('');
+      newUrl.pop();
+      var url= newUrl.join('');
+      url = url + '/allClasses';
       fetch(url)
       .then(response => response.json())
       .then((data) => {
