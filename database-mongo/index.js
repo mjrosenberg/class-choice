@@ -1,5 +1,8 @@
+require('dotenv').config();
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/test');
+// mongoose.connect('mongodb://localhost/test'); // coonnect to local db
+mongoose.connect(`mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@cluster0.yqhsb.mongodb.net/test`, {useNewUrlParser: true, useUnifiedTopology: true});
+// connect to atlas
 
 var db = mongoose.connection;
 

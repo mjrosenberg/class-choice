@@ -99,7 +99,7 @@ app.post('/addAccount', (req, res) => {
 });
 
 app.post('/addClass/:email', (req, res) => {
-  console.log('req.body is', req.body);
+  // console.log('req.body is', req.body);
   classes.Student.findOneAndUpdate({email: req.params.email}, {$push:{classes: req.body.id}}, {
     new: true
     })
@@ -113,7 +113,7 @@ app.post('/addClass/:email', (req, res) => {
 });
 
 app.delete('/removeClass/:email', (req, res) => {
-  console.log('req.body is', req.body);
+  // console.log('req.body is', req.body);
   classes.Student.findOneAndUpdate({email: req.params.email}, {$pull:{classes: req.body.id}}, {
     new: true
     })
